@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Celebrate Pride</title>
+    <link rel="stylesheet" href="pure-min.css">
+</head>
+<style>
+.is-center {
+    text-align: center;
+     margin: auto;
+      width: 100%;
+}
+</style>
+
+<body bgcolor="#F8BBD0">
+  <div class="is-center" id="container">
+	<canvas id="canvas" style="display:none"></canvas>
+  <h1>Celebrate Pride!</h1>
+  <input type="file"  id = "upload-input" style="display: none;">
+	<button id="upload-btn" style="margin-top:20%;" class="pure-button pure-button-primary">Upload a photo</button>
+</div>
+</body>
+<script src="jquery-1.11.3.min.js"></script>
+<script>
+  var canvas = $('#canvas');
+$( "#upload-btn" ).on( "click", function() { $("#upload-input").click(); });
+$('#upload-input').change(function(e) {
+      var file = e.target.files[0],
+          imageType = /image.*/;
+
+      if (!file.type.match(imageType))
+          return;
+
+      var reader = new FileReader();
+      reader.onload = fileOnload;
+      reader.readAsDataURL(file);
+  });
+  function fileOnload(e) {
+      var $img = $('<img>', { src: e.target.result });
+
+      var context = canvas[0].getContext('2d');
+
+      $img.load(function() {
+            $("#upload-btn").hide();
+          var res = this.height/this.width;
+          var scale = Math.min(window.innerWidth, window.innerHeight)*0.6;
+          var width = canvas[0].width =   scale;
+          var height = canvas[0].height = scale*res;
+          context.drawImage(this, 0, 0,width,height);
+          context.fillStyle = 'rgba(255,0,0,0.5)';
+          context.fillRect(0,0,width,height*0.167);
+          context.fillStyle = 'rgba(255,153,0,0.6)';
+          context.fillRect(0,height*0.167,width,height*0.167*2);
+          context.fillStyle = 'rgba(255,255,0,0.4)';
+          context.fillRect(0,height*0.167*2,width,height*0.167*3);
+          context.fillStyle = 'rgba(0,153,0,0.4)';
+          context.fillRect(0,height*0.167*3,width,height*0.167*4);
+          context.fillStyle = 'rgba(0,0,255,0.4)';
+          context.fillRect(0,height*0.167*4,width,height*0.167*5);
+          context.fillStyle = 'rgba(204,0,153,0.4)';
+          context.fillRect(0,height*0.167*5,width,height*0.167*6);
+          var img = new Image();
+          img.src = canvas[0].toDataURL();
+          $("#container").append(img);
+      });
+  }
+</script>
+</html>
