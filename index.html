@@ -27,7 +27,7 @@
 <script>
   var canvas = $('#canvas');
   var imgurID = window.location.href.split('#')[1];
-  if(imgurID != ""){
+  if(imgurID != null){
     var img = new Image();
     img.setAttribute('crossOrigin', 'anonymous');
     img.onload = imgOnLoad;
