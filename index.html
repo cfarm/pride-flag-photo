@@ -28,6 +28,7 @@
   var canvas = $('#canvas');
   var imgurID = window.location.href.split('#')[1];
   if(imgurID != null){
+    $("#upload-btn").hide();
     var img = new Image();
     img.setAttribute('crossOrigin', 'anonymous');
     img.onload = imgOnLoad;
