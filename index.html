@@ -26,6 +26,15 @@
 <script src="jquery-1.11.3.min.js"></script>
 <script>
   var canvas = $('#canvas');
+  var imgurID = window.location.href.split('#')[1];
+  if(imgurID != ""){
+    var img = new Image();
+    img.setAttribute('crossOrigin', 'anonymous');
+    img.onload = imgOnLoad;
+    img.src = "http://i.imgur.com/"+imgurID+".png";
+  }
+
+
 $( "#upload-btn" ).on( "click", function() { $("#upload-input").click(); });
 $('#upload-input').change(function(e) {
       var file = e.target.files[0],
@@ -38,34 +47,35 @@ $('#upload-input').change(function(e) {
       reader.onload = fileOnload;
       reader.readAsDataURL(file);
   });
+
+  function imgOnLoad(){
+    $("#upload-btn").hide();
+    var res = this.height/this.width;
+    var scale = Math.min.apply(Math, [$(window).width(), $(window).height(), this.height, this.width]);
+    var width = canvas[0].width =   scale;
+    var height = canvas[0].height = scale*res;
+    var context = canvas[0].getContext('2d');
+    context.drawImage(this, 0, 0,width,height);
+    context.fillStyle = 'rgba(255,0,0,0.4)';
+    context.fillRect(0,0,width,height*0.167);
+    context.fillStyle = 'rgba(255,153,0,0.5)';
+    context.fillRect(0,height*0.167,width,height*0.167*2);
+    context.fillStyle = 'rgba(255,255,0,0.3)';
+    context.fillRect(0,height*0.167*2,width,height*0.167*3);
+    context.fillStyle = 'rgba(0,153,0,0.3)';
+    context.fillRect(0,height*0.167*3,width,height*0.167*4);
+    context.fillStyle = 'rgba(0,0,255,0.3)';
+    context.fillRect(0,height*0.167*4,width,height*0.167*5);
+    context.fillStyle = 'rgba(204,0,153,0.3)';
+    context.fillRect(0,height*0.167*5,width,height*0.167*6);
+    var img = new Image();
+    img.src = canvas[0].toDataURL();
+    $("#container").append(img);
+  }
   function fileOnload(e) {
-      var $img = $('<img>', { src: e.target.result });
-
-      var context = canvas[0].getContext('2d');
-
-      $img.load(function() {
-            $("#upload-btn").hide();
-          var res = this.height/this.width;
-          var scale = Math.min.apply(Math, [$(window).width(), $(window).height(), this.height, this.width]);
-          var width = canvas[0].width =   scale;
-          var height = canvas[0].height = scale*res;
-          context.drawImage(this, 0, 0,width,height);
-          context.fillStyle = 'rgba(255,0,0,0.4)';
-          context.fillRect(0,0,width,height*0.167);
-          context.fillStyle = 'rgba(255,153,0,0.5)';
-          context.fillRect(0,height*0.167,width,height*0.167*2);
-          context.fillStyle = 'rgba(255,255,0,0.3)';
-          context.fillRect(0,height*0.167*2,width,height*0.167*3);
-          context.fillStyle = 'rgba(0,153,0,0.3)';
-          context.fillRect(0,height*0.167*3,width,height*0.167*4);
-          context.fillStyle = 'rgba(0,0,255,0.3)';
-          context.fillRect(0,height*0.167*4,width,height*0.167*5);
-          context.fillStyle = 'rgba(204,0,153,0.3)';
-          context.fillRect(0,height*0.167*5,width,height*0.167*6);
-          var img = new Image();
-          img.src = canvas[0].toDataURL();
-          $("#container").append(img);
-      });
+      var img = new Image();
+      img.onload = imgOnLoad;
+      img.src = e.target.result;
   }
 </script>
 </html>
