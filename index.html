@@ -56,19 +56,44 @@ $('#upload-input').change(function(e) {
     var width = canvas[0].width =   scale;
     var height = canvas[0].height = scale*res;
     var context = canvas[0].getContext('2d');
+    var flag= {
+        colors: [
+          'rgba(0,0,0,0.75)', // black
+          'rgba(113,82,35,0.5)', // brown
+          'rgba(255,0,0,0.4)', // red
+          'rgba(255,153,0,0.5)', // orange
+          'rgba(255,255,0,0.3)', // yellow
+          'rgba(0,153,0,0.3)', // green
+          'rgba(0,0,255,0.3)', // blue
+          'rgba(204,0,153,0.3)' // voilet
+        ],
+        stripeHeight: 0.125,
+        stripes: 8
+    }
     context.drawImage(this, 0, 0,width,height);
-    context.fillStyle = 'rgba(255,0,0,0.4)';
-    context.fillRect(0,0,width,height*0.167);
-    context.fillStyle = 'rgba(255,153,0,0.5)';
-    context.fillRect(0,height*0.167,width,height*0.167*2);
-    context.fillStyle = 'rgba(255,255,0,0.3)';
-    context.fillRect(0,height*0.167*2,width,height*0.167*3);
-    context.fillStyle = 'rgba(0,153,0,0.3)';
-    context.fillRect(0,height*0.167*3,width,height*0.167*4);
-    context.fillStyle = 'rgba(0,0,255,0.3)';
-    context.fillRect(0,height*0.167*4,width,height*0.167*5);
-    context.fillStyle = 'rgba(204,0,153,0.3)';
-    context.fillRect(0,height*0.167*5,width,height*0.167*6);
+
+    for (var i = 0; i < flag.stripes; i++) {
+      var stripeStart = 0;
+      context.fillStyle = flag.colors[i];
+      if (i == 0) {
+        stripeStart = 0;
+      } else {
+        stripeStart = height*flag.stripeHeight* (i-1);
+      }
+      context.fillRect(0,stripeStart,width,height*flag.stripeHeight*i);
+    }
+    // context.fillStyle = flag.colors.red;
+    // context.fillRect(0,0,width,height*flag.stripeHeight);
+    // context.fillStyle = flag.colors.orange;
+    // context.fillRect(0,height*flag.stripeHeight,width,height*flag.stripeHeight*2);
+    // context.fillStyle = flag.colors.yellow;
+    // context.fillRect(0,height*flag.stripeHeight*2,width,height*flag.stripeHeight*3);
+    // context.fillStyle = flag.colors.green;
+    // context.fillRect(0,height*flag.stripeHeight*3,width,height*flag.stripeHeight*4);
+    // context.fillStyle = flag.colors.blue;
+    // context.fillRect(0,height*flag.stripeHeight*4,width,height*flag.stripeHeight*5);
+    // context.fillStyle = flag.colors.violet;
+    // context.fillRect(0,height*flag.stripeHeight*5,width,height*flag.stripeHeight*6);
     var img = new Image();
     img.src = canvas[0].toDataURL();
     $("#container").append(img);
