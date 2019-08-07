@@ -58,13 +58,13 @@ $('#upload-input').change(function(e) {
     var context = canvas[0].getContext('2d');
     var flag= {
         colors: [
-          'rgba(0,0,0,0.75)', // black
+          'rgba(0,0,0,0.5)', // black
           'rgba(113,82,35,0.5)', // brown
           'rgba(255,0,0,0.4)', // red
           'rgba(255,153,0,0.5)', // orange
           'rgba(255,255,0,0.3)', // yellow
           'rgba(0,153,0,0.3)', // green
-          'rgba(0,0,255,0.3)', // blue
+          'rgba(0,0,255,0.4)', // blue
           'rgba(204,0,153,0.3)' // voilet
         ],
         stripeHeight: 0.125,
@@ -78,22 +78,11 @@ $('#upload-input').change(function(e) {
       if (i == 0) {
         stripeStart = 0;
       } else {
-        stripeStart = height*flag.stripeHeight* (i-1);
+        stripeStart = height*flag.stripeHeight*i;
       }
-      context.fillRect(0,stripeStart,width,height*flag.stripeHeight*i);
+      context.fillRect(0,stripeStart,width,height*flag.stripeHeight*(i+1));
     }
-    // context.fillStyle = flag.colors.red;
-    // context.fillRect(0,0,width,height*flag.stripeHeight);
-    // context.fillStyle = flag.colors.orange;
-    // context.fillRect(0,height*flag.stripeHeight,width,height*flag.stripeHeight*2);
-    // context.fillStyle = flag.colors.yellow;
-    // context.fillRect(0,height*flag.stripeHeight*2,width,height*flag.stripeHeight*3);
-    // context.fillStyle = flag.colors.green;
-    // context.fillRect(0,height*flag.stripeHeight*3,width,height*flag.stripeHeight*4);
-    // context.fillStyle = flag.colors.blue;
-    // context.fillRect(0,height*flag.stripeHeight*4,width,height*flag.stripeHeight*5);
-    // context.fillStyle = flag.colors.violet;
-    // context.fillRect(0,height*flag.stripeHeight*5,width,height*flag.stripeHeight*6);
+    
     var img = new Image();
     img.src = canvas[0].toDataURL();
     $("#container").append(img);
